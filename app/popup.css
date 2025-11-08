@@ -71,7 +71,9 @@ body {
 }
 
 .popup-container {
-    padding: 1rem;
+    padding-inline: 0.5rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.75rem;
     margin: 0.2rem;
     border: 1px solid var(--border-color);
     border-radius: 8px;
@@ -85,13 +87,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.2rem;
 }
 
 .main-toggle-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 1.3rem;
+    margin-block: 1rem;
 }
 
 h2 {
@@ -145,7 +148,7 @@ h2 {
 .setting {
     margin-bottom: 0.5rem;
     padding-inline: 0.5rem;
-    padding-block: 0.2rem;
+    padding-block: 0.15rem;
     background: var(--setting-bg);
     border-radius: 0.5rem;
     border: 1px solid var(--setting-border);
