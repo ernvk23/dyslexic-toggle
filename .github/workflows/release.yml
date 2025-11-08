@@ -29,7 +29,7 @@ jobs:
             - name: Create or Update Release
               uses: softprops/action-gh-release@v1
               with:
-                  files: dyslexic-fix.zip
+                  files: dist/dyslexic-fix.zip
                   name: ${{ github.ref_name }}
                   tag_name: ${{ github.ref_name }}
                   body: |
