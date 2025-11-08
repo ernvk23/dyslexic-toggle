@@ -25,7 +25,7 @@ const els = {
 };
 
 let currentDomain = null;
-let updateTimeout;
+let sliderTimeout = null;
 
 // Initialize
 chrome.storage.local.get(['enabled', 'letterSpacing', 'wordSpacing', 'lineHeight', 'fontSize', 'excludedDomains', 'theme'], (result) => {
@@ -93,6 +93,10 @@ function formatEm(value) {
 
 function updateToggleUI(enabled) {
     els.toggle.classList.toggle('active', enabled);
+    // Apply the same active class to all slider inputs
+    [els.letterSlider, els.wordSlider, els.lineSlider, els.fontSlider].forEach(slider => {
+        slider.classList.toggle('active', enabled);
+    });
 }
 
 function updateSlidersState(isExcluded, isEnabled) {
@@ -135,15 +139,30 @@ els.exclude.addEventListener('change', async () => {
     updateSlidersState(els.exclude.checked, enabled);
 });
 
-// Sliders
+// Sliders with debounced input for performance
 [els.letterSlider, els.wordSlider, els.lineSlider, els.fontSlider].forEach(slider => {
     slider.addEventListener('input', () => {
+        // Update display values immediately for instant feedback
         updateDisplayValues();
-        // Update current tab instantly during slider movement
-        updateCurrentTabStyles(getCurrentSettings());
+
+        // Debounce the style updates to prevent excessive re-rendering
+        if (sliderTimeout) {
+            clearTimeout(sliderTimeout);
+        }
+
+        sliderTimeout = setTimeout(() => {
+            // Update current tab with 10ms delay for smooth performance
+            updateCurrentTabStyles(getCurrentSettings());
+        }, 10);
     });
 
     slider.addEventListener('change', () => {
+        // Clear any pending timeout when slider is released
+        if (sliderTimeout) {
+            clearTimeout(sliderTimeout);
+            sliderTimeout = null;
+        }
+
         // When slider is released, save to storage and broadcast to all tabs
         saveSettingsAndBroadcast();
     });
@@ -156,6 +175,13 @@ els.exclude.addEventListener('change', async () => {
         val = Math.max(parseInt(slider.min), Math.min(parseInt(slider.max), val));
         slider.value = val;
         updateDisplayValues();
+
+        // Clear any pending timeout
+        if (sliderTimeout) {
+            clearTimeout(sliderTimeout);
+        }
+
+        // Apply styles immediately for wheel events (less frequent than dragging)
         updateCurrentTabStyles(getCurrentSettings());
         // Save to storage on wheel release
         saveSettingsAndBroadcast();

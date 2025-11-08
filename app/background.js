@@ -40,10 +40,8 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 });
 
 function updateBadge(enabled) {
-    chrome.action.setBadgeText({ text: enabled ? 'ON' : '' });
-    if (enabled) {
-        chrome.action.setBadgeBackgroundColor({ color: '#b8860b' });
-    }
+    chrome.action.setBadgeText({ text: enabled ? 'on' : '' });
+    chrome.action.setBadgeBackgroundColor({ color: '#0ea5e9' });
 }
 
 // Function to inject content script or trigger re-apply in all tabs

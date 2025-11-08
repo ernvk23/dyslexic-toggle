@@ -1,57 +1,54 @@
-/* Theme System - Default to dark theme */
+/* Theme System - Optimized for performance */
 :root {
-    /* Dark theme (current design) */
+    /* Dark theme (default) */
     --bg-primary: #181818;
     --bg-secondary: #222222;
     --border-color: #404040;
     --text-primary: #b1b1b1;
     --text-secondary: #ccc;
-    --accent-color: #b8860b;
-    --accent-hover: #9a6c08;
-    --accent-active: #7a5a0c;
-    --accent-glow: rgba(184, 134, 11, 0.1);
+    --accent-color: #0ea5e9;
+    --accent-hover: #0284c7;
+    --accent-active: #0369a1;
+    --accent-glow: rgba(14, 165, 233, 0.1);
     --setting-bg: #2a2a2a;
     --setting-border: #3a3a3a;
     --slider-bg: #2e2e2e;
     --toggle-inactive: #5e5c64;
     --checkbox-border: #5e5c64;
+    --slider-number: #b1b1b1;
 }
 
-/* Light theme */
+/* Light theme - only override what changes */
 [data-theme="light"] {
-    --bg-primary: #f8f9fa;
-    --bg-secondary: #ffffff;
-    --border-color: #e0e0e0;
-    --text-primary: #2c2c2c;
-    --text-secondary: #5a5a5a;
-    --accent-color: #ff8c00;
-    --accent-hover: #e67e00;
-    --accent-active: #cc7000;
-    --accent-glow: rgba(255, 140, 0, 0.1);
-    --setting-bg: #f5f5f5;
-    --setting-border: #e5e5e5;
-    --slider-bg: #e8e8e8;
-    --toggle-inactive: #b0b0b0;
-    --checkbox-border: #b0b0b0;
+    --bg-primary: #f0f2f5;
+    --bg-secondary: #f8f9fa;
+    --border-color: #d1d5db;
+    --text-primary: #1f2937;
+    --text-secondary: #4b5563;
+    --accent-glow: rgba(14, 165, 233, 0.15);
+    --setting-bg: #e5e7eb;
+    --setting-border: #d1d5db;
+    --slider-bg: #d1d5db;
+    --toggle-inactive: #9ca3af;
+    --checkbox-border: #9ca3af;
+    --slider-number: #1f2937;
 }
 
-/* System preference detection */
+/* System preference - use same values as light theme */
 @media (prefers-color-scheme: light) {
     :root:not([data-theme]) {
-        --bg-primary: #f8f9fa;
-        --bg-secondary: #ffffff;
-        --border-color: #e0e0e0;
-        --text-primary: #2c2c2c;
-        --text-secondary: #5a5a5a;
-        --accent-color: #ff8c00;
-        --accent-hover: #e67e00;
-        --accent-active: #cc7000;
-        --accent-glow: rgba(255, 140, 0, 0.1);
-        --setting-bg: #f5f5f5;
-        --setting-border: #e5e5e5;
-        --slider-bg: #e8e8e8;
-        --toggle-inactive: #b0b0b0;
-        --checkbox-border: #b0b0b0;
+        --bg-primary: #f0f2f5;
+        --bg-secondary: #f8f9fa;
+        --border-color: #d1d5db;
+        --text-primary: #1f2937;
+        --text-secondary: #4b5563;
+        --accent-glow: rgba(14, 165, 233, 0.15);
+        --setting-bg: #e5e7eb;
+        --setting-border: #d1d5db;
+        --slider-bg: #d1d5db;
+        --toggle-inactive: #9ca3af;
+        --checkbox-border: #9ca3af;
+        --slider-number: #1f2937;
     }
 }
 
@@ -125,14 +122,14 @@ h2 {
 
 .toggle-button.active {
     box-shadow:
-        0 0 4px rgba(184, 134, 11, 0.4),
-        0 0 8px rgba(184, 134, 11, 0.2);
+        0 0 4px rgba(14, 165, 233, 0.4),
+        0 0 8px rgba(14, 165, 233, 0.2);
 }
 
 .toggle-button.active:hover {
     box-shadow:
-        0 0 6px rgba(184, 134, 11, 0.5),
-        0 0 10px rgba(184, 134, 11, 0.3);
+        0 0 6px rgba(14, 165, 233, 0.5),
+        0 0 10px rgba(14, 165, 233, 0.3);
 }
 
 .toggle-icon {
@@ -198,7 +195,7 @@ label {
 }
 
 label span {
-    color: var(--accent-color);
+    color: var(--slider-number);
     font-variant-numeric: tabular-nums;
     min-width: 2rem;
     text-align: right;
@@ -220,10 +217,14 @@ input[type="range"]::-webkit-slider-thumb {
     width: 0.875rem;
     height: 0.875rem;
     border-radius: 50%;
-    background: var(--accent-color);
+    background: var(--toggle-inactive);
     cursor: pointer;
     box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.3);
     transition: all 0.15s;
+}
+
+input[type="range"].active::-webkit-slider-thumb {
+    background: var(--accent-color);
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
@@ -239,11 +240,15 @@ input[type="range"]::-moz-range-thumb {
     width: 0.875rem;
     height: 0.875rem;
     border-radius: 50%;
-    background: var(--accent-color);
+    background: var(--toggle-inactive);
     cursor: pointer;
     border: none;
     box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.3);
     transition: all 0.15s;
+}
+
+input[type="range"].active::-moz-range-thumb {
+    background: var(--accent-color);
 }
 
 input[type="range"]::-moz-range-thumb:hover {
