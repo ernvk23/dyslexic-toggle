@@ -210,6 +210,11 @@ input[type="range"] {
     -webkit-appearance: none;
     appearance: initial;
     cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+input[type="range"]:disabled {
+    opacity: 0.6;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -221,6 +226,11 @@ input[type="range"]::-webkit-slider-thumb {
     cursor: pointer;
     box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.3);
     transition: all 0.15s;
+}
+
+input[type="range"]:disabled::-webkit-slider-thumb {
+    background: var(--toggle-inactive);
+    opacity: 0.6;
 }
 
 input[type="range"].active::-webkit-slider-thumb {
@@ -245,6 +255,11 @@ input[type="range"]::-moz-range-thumb {
     border: none;
     box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.3);
     transition: all 0.15s;
+}
+
+input[type="range"]:disabled::-moz-range-thumb {
+    background: var(--toggle-inactive);
+    opacity: 0.6;
 }
 
 input[type="range"].active::-moz-range-thumb {
