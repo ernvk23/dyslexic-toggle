@@ -17,17 +17,18 @@ async function initState() {
     state = { ...DEFAULTS, ...result };
 }
 
-browser.runtime.onInstalled.addListener(async () => {
-    await initState();
+async function initStateWithDefaultsOnly() {
+    state = { ...DEFAULTS };
+    await browser.storage.local.set(DEFAULTS);
+}
 
-    const missingDefaults = {};
-    for (const [key, value] of Object.entries(DEFAULTS)) {
-        if (state[key] === undefined) missingDefaults[key] = value;
-    }
-
-    if (Object.keys(missingDefaults).length > 0) {
-        Object.assign(state, missingDefaults);
-        await browser.storage.local.set(missingDefaults);
+browser.runtime.onInstalled.addListener(async (details) => {
+    if (details.reason === 'install') {
+        // Only set defaults on fresh installation
+        await initStateWithDefaultsOnly();
+    } else {
+        // For updates, load existing state
+        await initState();
     }
 
     updateBadge(state.enabled);
@@ -35,6 +36,7 @@ browser.runtime.onInstalled.addListener(async () => {
 });
 
 browser.runtime.onStartup.addListener(async () => {
+    // On startup, load existing state (don't reset to defaults)
     await initState();
     updateBadge(state.enabled);
 });
