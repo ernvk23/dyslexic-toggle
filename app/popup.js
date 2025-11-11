@@ -30,6 +30,7 @@ let currentDomain = null;
 let sliderTimeout = null;
 let wheelTimeout = null;
 let backgroundUpdateTimeout = null;
+let storageSaveTimeout = null;
 
 browser.storage.local.get(Object.keys(DEFAULTS)).then(result => {
     const settings = { ...DEFAULTS, ...result };
@@ -127,8 +128,8 @@ els.exclude.addEventListener('change', async () => {
         updateDisplayValues();
 
         if (sliderTimeout) clearTimeout(sliderTimeout);
-        sliderTimeout = setTimeout(() => updateCurrentTabStyles(getCurrentSettings()), 10);
-    }, { passive: false });
+        sliderTimeout = setTimeout(() => updateCurrentTabStyles(getCurrentSettings()), 15);
+    }, { passive: true });
 
     slider.addEventListener('change', () => {
         if (sliderTimeout) {
@@ -136,8 +137,14 @@ els.exclude.addEventListener('change', async () => {
             sliderTimeout = null;
         }
         updateCurrentTabStyles(getCurrentSettings());
-        saveSettingsAndBroadcast();
-    }, { passive: false });
+
+        // Debounced storage update - only the last one wins
+        if (storageSaveTimeout) clearTimeout(storageSaveTimeout);
+        storageSaveTimeout = setTimeout(() => {
+            saveSettingsAndBroadcast();
+            storageSaveTimeout = null;
+        }, 500);
+    }, { passive: true }); // Can be passive since we don't call preventDefault()
 
     slider.addEventListener('wheel', (e) => {
         e.preventDefault();
@@ -149,12 +156,19 @@ els.exclude.addEventListener('change', async () => {
 
         updateDisplayValues();
 
+        // Update current tab styles with 10ms debounce
         if (wheelTimeout) clearTimeout(wheelTimeout);
         wheelTimeout = setTimeout(() => {
             updateCurrentTabStyles(getCurrentSettings());
-            saveSettingsAndBroadcast();
             wheelTimeout = null;
-        }, 100);
+        }, 15);
+
+        // Schedule storage update only when wheel stops for 500ms
+        if (storageSaveTimeout) clearTimeout(storageSaveTimeout);
+        storageSaveTimeout = setTimeout(() => {
+            saveSettingsAndBroadcast();
+            storageSaveTimeout = null;
+        }, 500);
     }, { passive: false });
 });
 
@@ -178,27 +192,28 @@ async function updateCurrentTabStyles(settings) {
 
         // If content script isn't loaded, inject it and send message
         if (!response) {
-            await injectContentScript(tab.id);
-            // Send the message after injection to ensure current settings are applied
-            await browser.tabs.sendMessage(tab.id, {
-                action: 'UPDATE_STYLES',
-                settings: settings
-            }).catch(() => { });
+            injectContentScript(tab.id).then(() => {
+                // Send the message after injection to ensure current settings are applied
+                browser.tabs.sendMessage(tab.id, {
+                    action: 'UPDATE_STYLES',
+                    settings: settings
+                }).catch(() => { });
+            });
         }
     }
 }
 
-async function injectContentScript(tabId) {
-    try {
-        await browser.scripting.insertCSS({
+function injectContentScript(tabId) {
+    return Promise.all([
+        browser.scripting.insertCSS({
             target: { tabId: tabId, allFrames: true },
             files: ['fonts.css', 'style.css']
-        });
-        await browser.scripting.executeScript({
+        }).catch(() => { }),
+        browser.scripting.executeScript({
             target: { tabId: tabId, allFrames: true },
             files: ['content.js']
-        });
-    } catch (error) { }
+        }).catch(() => { })
+    ]);
 }
 
 function saveSettingsAndBroadcast() {
@@ -210,7 +225,7 @@ function scheduleBackgroundUpdate() {
     if (backgroundUpdateTimeout) clearTimeout(backgroundUpdateTimeout);
     backgroundUpdateTimeout = setTimeout(() => {
         browser.runtime.sendMessage({ action: 'UPDATE_BACKGROUND_TABS' });
-    }, 1000);
+    }, 500);
 }
 
 els.themeToggle.addEventListener('click', async (e) => {

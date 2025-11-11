@@ -8,7 +8,7 @@ const DEFAULTS = {
     theme: 'system'
 };
 
-const RESTRICTED = ['chrome://', 'chrome-extension://', 'moz-extension://', 'about:', 'file://'];
+const RESTRICTED = ['chrome://', 'chrome-extension://', 'moz-extension://', 'file://', 'about:', 'edge://', 'brave://', 'data:'];
 
 let state = { ...DEFAULTS };
 

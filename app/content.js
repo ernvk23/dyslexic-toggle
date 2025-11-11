@@ -2,6 +2,8 @@
     // Browser API detection
     const api = typeof browser !== 'undefined' ? browser : chrome;
 
+    const RESTRICTED = ['chrome://', 'chrome-extension://', 'moz-extension://', 'file://', 'about:', 'edge://', 'brave://', 'data:'];
+
     const state = {
         enabled: false,
         excluded: false,
@@ -19,6 +21,11 @@
     init();
 
     function init() {
+        // Skip initialization on restricted URLs
+        if (RESTRICTED.some(prefix => location.href.startsWith(prefix))) {
+            return;
+        }
+
         api.storage.local.get(
             ['enabled', 'letterSpacing', 'wordSpacing', 'lineHeight', 'fontSize', 'excludedDomains']
         ).then(result => {
@@ -116,7 +123,7 @@
                         document.documentElement.classList.add('opendyslexic-active');
                         updateCSSVariables();
                     });
-                }, 50); // 50ms debounce - optimal balance between UX and performance
+                }, 15);
             }
         });
 
