@@ -37,7 +37,7 @@ jobs:
                   body: |
                       # DyslexiaAway
 
-                      A small browser extension that applies the **OpenDyslexic** font to webpages. For some of us, that small change makes reading a lot easier. ✨
+                      A simple browser extension that applies the **OpenDyslexic** font to webpages. For some of us, that small change makes reading a lot easier. ✨
 
                       ---
 
