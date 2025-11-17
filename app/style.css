@@ -1,10 +1,12 @@
 /*
-  This stylesheet uses a smart scaling factor for font sizes and
-  explicitly protects the font-family and spacing of code blocks,
-  while allowing their font-size to be controlled.
+  =====================================================================
+  OpenDyslexic - Production Stylesheet
+  =====================================================================
 */
 
-/* Apply OpenDyslexic font to all target text elements */
+/* 1. Font Family Application */
+
+/* Apply font to common semantic text elements. */
 html.opendyslexic-active p,
 html.opendyslexic-active li,
 html.opendyslexic-active blockquote,
@@ -49,14 +51,14 @@ html.opendyslexic-active option {
     font-family: 'OpenDyslexic', sans-serif !important;
 }
 
-html.opendyslexic-active div:not([class~="fa"]):not([class*="fa-"]):not([class*="icon"]):not([class*="material-symbols"]):not([class*="material-icons"]):not([class*="bi-"]):not([class*="glyph"]):not([class*="symbol"]):not([data-icon]):not([role="img"]):not([aria-hidden="true"]),
-html.opendyslexic-active span:not([class~="fa"]):not([class*="fa-"]):not([class*="icon"]):not([class*="material-symbols"]):not([class*="material-icons"]):not([class*="bi-"]):not([class*="glyph"]):not([class*="symbol"]):not([data-icon]):not([role="img"]):not([aria-hidden="true"]),
-html.opendyslexic-active a:not([class~="fa"]):not([class*="fa-"]):not([class*="icon"]):not([class*="material-symbols"]):not([class*="material-icons"]):not([class*="bi-"]):not([class*="glyph"]):not([class*="symbol"]):not([data-icon]):not([role="img"]):not([aria-hidden="true"]),
-html.opendyslexic-active label:not([class~="fa"]):not([class*="fa-"]):not([class*="icon"]):not([class*="material-symbols"]):not([class*="material-icons"]):not([class*="bi-"]):not([class*="glyph"]):not([class*="symbol"]):not([data-icon]):not([role="img"]):not([aria-hidden="true"]),
-html.opendyslexic-active button:not([class~="fa"]):not([class*="fa-"]):not([class*="icon"]):not([class*="material-symbols"]):not([class*="material-icons"]):not([class*="bi-"]):not([class*="glyph"]):not([class*="symbol"]):not([data-icon]):not([role="img"]):not([aria-hidden="true"]) {
+/* Universal catch-all for generic and custom elements. */
+html.opendyslexic-active *:not(html):not(head):not(body):not(script):not(style):not(link):not(meta):not(title):not(path):not(svg):not(br):not(hr):not([class~="fa"]):not([class*="fa-"]):not([class*="icon"]):not([class*="material-symbols"]):not([class*="material-icons"]):not([class*="bi-"]):not([class*="glyph"]):not([class*="symbol"]):not([data-icon]):not([role="img"]):not([aria-hidden="true"]) {
     font-family: 'OpenDyslexic', sans-serif !important;
 }
 
+/* 2. Code Block Protection */
+
+/* Revert font for code blocks to preserve monospace. */
 html.opendyslexic-active:not(#_) pre,
 html.opendyslexic-active:not(#_) code,
 html.opendyslexic-active:not(#_) kbd,
@@ -70,56 +72,19 @@ html.opendyslexic-active:not(#_) samp * {
     word-spacing: initial !important;
 }
 
-/* Define a scaling factor for secondary text elements */
-html.opendyslexic-active {
-    --od-secondary-scale-factor: 0.85;
-}
+/* 3. Surgical Sizing & Spacing */
 
-/* Apply custom spacing ONLY to primary reading content and headings */
+/* Apply user-defined size/spacing to core reading content. */
 html.opendyslexic-active p,
 html.opendyslexic-active blockquote,
-html.opendyslexic-active article,
-html.opendyslexic-active dd,
-html.opendyslexic-active h1,
-html.opendyslexic-active h2,
-html.opendyslexic-active h3,
-html.opendyslexic-active h4,
-html.opendyslexic-active h5,
-html.opendyslexic-active h6 {
+html.opendyslexic-active article {
+    font-size: var(--od-font-size) !important;
     letter-spacing: var(--od-letter-spacing) !important;
     word-spacing: var(--od-word-spacing) !important;
     line-height: var(--od-line-height) !important;
 }
 
-/* Apply font size with scaling for different content types */
-/* Full size for primary reading content */
-html.opendyslexic-active p,
-html.opendyslexic-active blockquote,
-html.opendyslexic-active article {
-    font-size: var(--od-font-size) !important;
-}
-
-/* Scaled size for secondary content */
-html.opendyslexic-active li,
-html.opendyslexic-active td,
-html.opendyslexic-active th,
-html.opendyslexic-active dd,
-html.opendyslexic-active dt,
-html.opendyslexic-active pre,
-html.opendyslexic-active code,
-html.opendyslexic-active kbd,
-html.opendyslexic-active samp,
-html.opendyslexic-active figcaption,
-html.opendyslexic-active caption,
-html.opendyslexic-active address,
-html.opendyslexic-active legend,
-html.opendyslexic-active summary,
-html.opendyslexic-active q,
-html.opendyslexic-active cite {
-    font-size: calc(var(--od-font-size) * var(--od-secondary-scale-factor)) !important;
-}
-
-/* Normalize font size for inline elements to prevent compounding */
+/* Normalize inline element font size to prevent compounding. */
 html.opendyslexic-active strong,
 html.opendyslexic-active b,
 html.opendyslexic-active em,
