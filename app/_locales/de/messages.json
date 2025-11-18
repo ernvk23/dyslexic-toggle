@@ -14,9 +14,6 @@
     "lineHeight": {
         "message": "Zeilenhöhe"
     },
-    "fontSize": {
-        "message": "Schriftgröße"
-    },
     "excludeSite": {
         "message": "Seite ausschließen"
     },

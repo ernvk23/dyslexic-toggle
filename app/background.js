@@ -3,7 +3,6 @@ const DEFAULTS = {
     letterSpacing: 0,
     wordSpacing: 0,
     lineHeight: 140,
-    fontSize: 100,
     excludedDomains: [],
     theme: 'system'
 };

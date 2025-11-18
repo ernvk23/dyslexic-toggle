@@ -21,24 +21,21 @@ const DEFAULTS = {
     letterSpacing: 0,
     wordSpacing: 0,
     lineHeight: 140,
-    fontSize: 100,
     excludedDomains: [],
     theme: 'system'
 };
 
 const RESTRICTED = ['chrome://', 'chrome-extension://', 'moz-extension://', 'file://', 'about:', 'edge://', 'brave://', 'data:'];
 
-const sliders = ['letterSpacing', 'wordSpacing', 'lineHeight', 'fontSize'];
+const sliders = ['letterSpacing', 'wordSpacing', 'lineHeight'];
 const els = {
     toggle: document.getElementById('toggleBtn'),
     letterSlider: document.getElementById('letterSpacing'),
     wordSlider: document.getElementById('wordSpacing'),
     lineSlider: document.getElementById('lineHeight'),
-    fontSlider: document.getElementById('fontSize'),
     letterVal: document.getElementById('letterValue'),
     wordVal: document.getElementById('wordValue'),
     lineVal: document.getElementById('lineValue'),
-    fontVal: document.getElementById('fontSizeValue'),
     reset: document.getElementById('resetBtn'),
     exclude: document.getElementById('excludeSite'),
     themeToggle: document.getElementById('themeToggleBtn')
@@ -57,7 +54,6 @@ browser.storage.local.get(Object.keys(DEFAULTS)).then(result => {
     els.letterSlider.value = settings.letterSpacing;
     els.wordSlider.value = settings.wordSpacing;
     els.lineSlider.value = settings.lineHeight;
-    els.fontSlider.value = settings.fontSize;
 
     applyTheme(settings.theme);
     updateDisplayValues();
@@ -86,7 +82,6 @@ function updateDisplayValues() {
     els.wordVal.textContent = formatEm(els.wordSlider.value);
     const lineHeightValue = (els.lineSlider.value / 100).toFixed(2);
     els.lineVal.textContent = lineHeightValue === '-0.00' ? '0.00' : lineHeightValue;
-    els.fontVal.textContent = els.fontSlider.value + '%';
 }
 
 function formatEm(value) {
@@ -107,7 +102,7 @@ function updateToggleUI(enabled) {
 function updateSlidersState(isExcluded, isEnabled) {
     const disabled = !isEnabled || isExcluded;
 
-    [els.letterSlider, els.wordSlider, els.lineSlider, els.fontSlider].forEach(s => {
+    [els.letterSlider, els.wordSlider, els.lineSlider].forEach(s => {
         s.disabled = disabled;
         s.classList.toggle('active', !disabled);
     });
@@ -142,7 +137,7 @@ els.exclude.addEventListener('change', async () => {
     updateSlidersState(els.exclude.checked, enabled);
 });
 
-[els.letterSlider, els.wordSlider, els.lineSlider, els.fontSlider].forEach(slider => {
+[els.letterSlider, els.wordSlider, els.lineSlider].forEach(slider => {
     slider.addEventListener('input', () => {
         updateDisplayValues();
 
@@ -195,8 +190,7 @@ function getCurrentSettings() {
     return {
         letterSpacing: parseInt(els.letterSlider.value),
         wordSpacing: parseInt(els.wordSlider.value),
-        lineHeight: parseInt(els.lineSlider.value),
-        fontSize: parseInt(els.fontSlider.value)
+        lineHeight: parseInt(els.lineSlider.value)
     };
 }
 
@@ -261,7 +255,6 @@ els.reset.addEventListener('click', async () => {
     els.letterSlider.value = DEFAULTS.letterSpacing;
     els.wordSlider.value = DEFAULTS.wordSpacing;
     els.lineSlider.value = DEFAULTS.lineHeight;
-    els.fontSlider.value = DEFAULTS.fontSize;
 
     applyTheme(DEFAULTS.theme);
     updateDisplayValues();

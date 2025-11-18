@@ -14,9 +14,6 @@
     "lineHeight": {
         "message": "Altezza riga"
     },
-    "fontSize": {
-        "message": "Dimensione carattere"
-    },
     "excludeSite": {
         "message": "Escludi sito"
     },

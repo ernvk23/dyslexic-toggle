@@ -14,9 +14,6 @@
     "lineHeight": {
         "message": "Высота строки"
     },
-    "fontSize": {
-        "message": "Размер шрифта"
-    },
     "excludeSite": {
         "message": "Исключить сайт"
     },

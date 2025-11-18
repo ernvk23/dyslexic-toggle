@@ -14,9 +14,6 @@
     "lineHeight": {
         "message": "Line Height"
     },
-    "fontSize": {
-        "message": "Font Size"
-    },
     "excludeSite": {
         "message": "Exclude site"
     },

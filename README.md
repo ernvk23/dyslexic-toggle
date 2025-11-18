@@ -9,7 +9,7 @@ For some of us, that small change makes reading a lot easier. ✨
 
 * **Instant toggle:** Turn it on or off with one click
 * **Theme switching:** Choose between light, dark, or system themes
-* **Custom settings:** Adjust spacing, line height, and font size
+* **Custom settings:** Adjust spacing and line height
 * **Site exclusion:** Skip pages where it could cause issues
 * **Cross-browser compatible:** Works on Chrome, Firefox, and Chromium-based browsers
 

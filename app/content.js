@@ -9,8 +9,7 @@
         excluded: false,
         letterSpacing: 0,
         wordSpacing: 0,
-        lineHeight: 140,
-        fontSize: 100
+        lineHeight: 140
     };
 
     let animationFrameId = null;
@@ -26,13 +25,12 @@
         }
 
         api.storage.local.get(
-            ['enabled', 'letterSpacing', 'wordSpacing', 'lineHeight', 'fontSize', 'excludedDomains']
+            ['enabled', 'letterSpacing', 'wordSpacing', 'lineHeight', 'excludedDomains']
         ).then(result => {
             state.enabled = result.enabled || false;
             state.letterSpacing = result.letterSpacing ?? 0;
             state.wordSpacing = result.wordSpacing ?? 0;
             state.lineHeight = result.lineHeight ?? 140;
-            state.fontSize = result.fontSize ?? 100;
             state.excluded = (result.excludedDomains || []).includes(location.hostname);
 
             applyStyles();
@@ -74,7 +72,6 @@
         rootStyle.setProperty('--od-letter-spacing', `${(state.letterSpacing / 1000).toFixed(3)}em`);
         rootStyle.setProperty('--od-word-spacing', `${(state.wordSpacing / 1000).toFixed(3)}em`);
         rootStyle.setProperty('--od-line-height', (state.lineHeight / 100).toFixed(2));
-        rootStyle.setProperty('--od-font-size', `${(state.fontSize / 100).toFixed(2)}rem`);
     }
 
     function removeStyles() {
@@ -85,7 +82,6 @@
         rootStyle.removeProperty('--od-letter-spacing');
         rootStyle.removeProperty('--od-word-spacing');
         rootStyle.removeProperty('--od-line-height');
-        rootStyle.removeProperty('--od-font-size');
     }
 
     // Monitor DOM changes for SPA navigation (GitHub, etc.)
@@ -138,7 +134,7 @@
     function updateState(newState) {
         let changed = false;
 
-        ['letterSpacing', 'wordSpacing', 'lineHeight', 'fontSize'].forEach(key => {
+        ['letterSpacing', 'wordSpacing', 'lineHeight'].forEach(key => {
             if (newState[key] !== undefined && state[key] !== newState[key]) {
                 state[key] = newState[key];
                 changed = true;
@@ -189,7 +185,7 @@
             needsFullReapply = true;
         }
 
-        ['letterSpacing', 'wordSpacing', 'lineHeight', 'fontSize'].forEach(key => {
+        ['letterSpacing', 'wordSpacing', 'lineHeight'].forEach(key => {
             if (changes[key]) updates[key] = changes[key].newValue;
         });
 
