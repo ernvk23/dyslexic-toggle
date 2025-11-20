@@ -97,6 +97,11 @@
         }
 
         observer = new MutationObserver((mutations) => {
+            // Early exit if already applied - CRITICAL for performance
+            if (document.documentElement.classList.contains('opendyslexic-active')) {
+                return;
+            }
+
             // Check if significant DOM changes occurred (like SPA navigation)
             const hasSignificantChanges = mutations.some(mutation =>
                 mutation.addedNodes.length > 0 ||
@@ -112,7 +117,7 @@
                         document.documentElement.classList.add('opendyslexic-active');
                         updateCSSVariables();
                     });
-                }, 15);
+                }, 20);
             }
         });
 
